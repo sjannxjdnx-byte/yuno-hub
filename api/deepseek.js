@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const { prompt } = req.body;
+  const prompt = req.query.prompt;
 
   if (!prompt) {
     return res.status(400).json({ error: "No prompt provided" });
@@ -10,12 +10,12 @@ export default async function handler(req, res) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${process.env.DEEPSEEK_API_KEY}`
+        "Authorization": `Bearer ${process.env.DEEPSEEK_API_KEY}`,
       },
       body: JSON.stringify({
         model: "deepseek-chat",
         messages: [{ role: "user", content: prompt }]
-      })
+      }),
     });
 
     const data = await response.json();
